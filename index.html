@@ -1,32 +1,227 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
+
 <meta charset="UTF-8">
 <title>Briefing Vértice</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f4f4;
+margin:0;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:40px;
+margin-top:40px;
+border-radius:8px;
+}
+
+input, textarea{
+width:100%;
+padding:10px;
+margin-bottom:20px;
+}
+
+button{
+background:black;
+color:white;
+padding:12px 20px;
+border:none;
+cursor:pointer;
+margin-top:10px;
+}
+
+.result{
+background:#f0f0f0;
+padding:20px;
+margin-top:30px;
+white-space:pre-wrap;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h1>Briefing de Projeto</h1>
+<div class="container">
 
-<p>Preencha as informações abaixo para iniciarmos seu projeto.</p>
+<h1>Briefing de Projeto — Vértice</h1>
 
-<form>
+<label>Nome da empresa</label>
+<input id="empresa">
 
-<label>Nome da empresa</label><br>
-<input type="text"><br><br>
+<label>Segmento</label>
+<input id="segmento">
 
-<label>Instagram ou site</label><br>
-<input type="text"><br><br>
+<label>Objetivo do site</label>
+<textarea id="objetivo"></textarea>
 
-<label>Objetivo do projeto</label><br>
-<textarea></textarea><br><br>
+<label>Público alvo</label>
+<textarea id="publico"></textarea>
 
-<button>Enviar</button>
+<label>Estilo visual</label>
+<input id="estilo">
 
-</form>
+<label>Sites de referência</label>
+<textarea id="referencias"></textarea>
+
+<label>Funcionalidades</label>
+<textarea id="funcionalidades"></textarea>
+
+<button onclick="gerar()">Gerar Projeto</button>
+
+<div id="prompts" class="result"></div>
+
+</div>
+
+<script>
+
+function gerar(){
+
+let empresa=document.getElementById("empresa").value
+let segmento=document.getElementById("segmento").value
+let objetivo=document.getElementById("objetivo").value
+let publico=document.getElementById("publico").value
+let estilo=document.getElementById("estilo").value
+let referencias=document.getElementById("referencias").value
+let funcionalidades=document.getElementById("funcionalidades").value
+
+let prompt1=`
+Create a modern website for ${empresa}.
+
+Business segment:
+${segmento}
+
+Goal:
+${objetivo}
+
+Target audience:
+${publico}
+
+Design style:
+${estilo}
+
+Reference websites:
+${referencias}
+
+Features:
+${funcionalidades}
+
+Focus on conversion and responsive design.
+`
+
+let prompt2=`
+Design a high converting landing page for ${empresa} in the ${segmento} market.
+
+Goal:
+${objetivo}
+
+Audience:
+${publico}
+
+Style:
+${estilo}
+
+Include:
+Hero section
+Benefits
+Social proof
+Call to action
+Responsive design
+`
+
+let prompt3=`
+Build a professional website structure for ${empresa}.
+
+Pages:
+Home
+About
+Services
+Contact
+
+Features:
+${funcionalidades}
+
+Design inspiration:
+${referencias}
+
+Target audience:
+${publico}
+`
+
+let wireframe=`
+
+WIREFRAME DO SITE
+
+HOME
+- Hero
+- Benefícios
+- Serviços
+- Depoimentos
+- CTA
+
+SOBRE
+- História
+- Diferenciais
+
+SERVIÇOS
+- Lista de serviços
+- Detalhes
+
+CONTATO
+- Formulário
+- WhatsApp
+`
+
+let proposta=`
+
+ESCOPO DE PROJETO
+
+Projeto: Website para ${empresa}
+
+Objetivo:
+${objetivo}
+
+Público alvo:
+${publico}
+
+Funcionalidades:
+${funcionalidades}
+
+Estrutura do site:
+Home
+Sobre
+Serviços
+Contato
+
+Entrega:
+Design moderno
+Site responsivo
+Otimização para conversão
+`
+
+document.getElementById("prompts").textContent=
+
+"PROMPT LOVABLE 1\n"+prompt1+
+
+"\n\nPROMPT LOVABLE 2\n"+prompt2+
+
+"\n\nPROMPT LOVABLE 3\n"+prompt3+
+
+"\n\n"+wireframe+
+
+"\n\n"+proposta
+
+}
+
+</script>
 
 </body>
-
 </html>
