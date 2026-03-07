@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
 
 <meta charset="UTF-8">
@@ -108,7 +109,7 @@ display:none;
 <div class="progress-bar" id="progress"></div>
 </div>
 
-<!-- STEP 1 -->
+<!-- PASSO 1 -->
 
 <div class="step active">
 
@@ -119,7 +120,7 @@ display:none;
 
 </div>
 
-<!-- STEP 2 -->
+<!-- PASSO 2 -->
 
 <div class="step">
 
@@ -131,18 +132,16 @@ display:none;
 
 </div>
 
-<!-- STEP 3 -->
+<!-- PASSO 3 -->
 
 <div class="step">
 
-<h2>Qual objetivo do site?</h2>
+<h2>Qual tipo de projeto você precisa?</h2>
 
-<select id="objetivo">
+<select id="tipoProjeto">
 
-<option>Vender produtos</option>
-<option>Captar leads</option>
-<option>Portfólio</option>
-<option>Institucional</option>
+<option value="site">Criação de Site</option>
+<option value="sistema">Sistema / Automação</option>
 
 </select>
 
@@ -150,11 +149,31 @@ display:none;
 
 </div>
 
-<!-- STEP 4 -->
+<!-- PASSO 4 -->
 
 <div class="step">
 
-<h2>Escolha um estilo visual</h2>
+<h2>Escolha um pacote</h2>
+
+<select id="pacoteSite">
+
+<option value="landing">Landing Page - R$350</option>
+
+<option value="site">Site Completo - R$550</option>
+
+<option value="google">Site + Google - R$750</option>
+
+</select>
+
+<button onclick="next()">Próximo</button>
+
+</div>
+
+<!-- PASSO 5 -->
+
+<div class="step">
+
+<h2>Escolha o estilo visual</h2>
 
 <div class="design-grid">
 
@@ -180,24 +199,6 @@ display:none;
 
 </div>
 
-<button onclick="next()">Próximo</button>
-
-</div>
-
-<!-- STEP 5 -->
-
-<div class="step">
-
-<h2>Prazo estimado</h2>
-
-<select id="prazo">
-
-<option>1 semana</option>
-<option>2 semanas</option>
-<option>1 mês</option>
-
-</select>
-
 <button onclick="finalizar()">Finalizar</button>
 
 </div>
@@ -207,14 +208,13 @@ display:none;
 <div class="step">
 
 <h2>Obrigado!</h2>
-
 <p>Recebemos seu briefing.</p>
 
 </div>
 
 </div>
 
-<!-- ÁREA OCULTA (SÓ VOCÊ) -->
+<!-- AREA ADMIN -->
 
 <div class="hidden" id="admin">
 
@@ -230,6 +230,42 @@ display:none;
 
 let step=0
 let design=""
+
+const pacotes={
+
+landing:{
+nome:"Landing Page",
+preco:"R$350",
+prazo:"2 dias úteis",
+recursos:[
+"Página completa",
+"Botão WhatsApp",
+"Design responsivo"
+]
+},
+
+site:{
+nome:"Site Completo",
+preco:"R$550",
+prazo:"3 dias úteis",
+recursos:[
+"Portfólio de trabalhos",
+"Seção de depoimentos",
+"Domínio .com.br incluso"
+]
+},
+
+google:{
+nome:"Site + Google",
+preco:"R$750",
+prazo:"5 dias úteis",
+recursos:[
+"Google Meu Negócio",
+"2 meses de suporte técnico"
+]
+}
+
+}
 
 function next(){
 
@@ -275,83 +311,27 @@ document.getElementById("admin").style.display="block"
 function gerarProjeto(){
 
 let empresa=document.getElementById("empresa").value
-let objetivo=document.getElementById("objetivo").value
-let prazo=document.getElementById("prazo").value
+let pacoteSelecionado=document.getElementById("pacoteSite").value
 
-let promptLovable=
+let projeto=pacotes[pacoteSelecionado]
 
-`Crie um website para a empresa ${empresa}
+let proposta=`
 
-Objetivo: ${objetivo}
+Projeto: ${projeto.nome}
 
-Estilo: ${design}
+Empresa: ${empresa}
 
-Prazo: ${prazo}
+Preço: ${projeto.preco}
 
-Estruture UX, layout e páginas.`
-
-let promptUI=
-
-`UI design para website ${empresa}
-
-Estilo visual ${design}
-
-Objetivo ${objetivo}
-
-Criar interface moderna.`
-
-let wireframe=
-
-`
-HOME
-Hero
-Serviços
-Prova social
-CTA
-
-PÁGINAS
-Sobre
-Serviços
-Contato
-`
-
-let proposta=
-
-`
-Projeto Web
-
-Cliente: ${empresa}
-
-Objetivo: ${objetivo}
-
-Prazo: ${prazo}
+Prazo: ${projeto.prazo}
 
 Inclui:
-Design
-UX
-Desenvolvimento
-Entrega completa
-`
 
-let resultado=
+${projeto.recursos.join("\n")}
 
 `
 
-PROMPT LOVABLE
-${promptLovable}
-
-PROMPT UI
-${promptUI}
-
-WIREFRAME
-${wireframe}
-
-PROPOSTA
-${proposta}
-
-`
-
-document.getElementById("resultado").textContent=resultado
+document.getElementById("resultado").textContent=proposta
 
 }
 
