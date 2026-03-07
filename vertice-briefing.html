@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vértice · Briefing do Projeto</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --noir:      #0A0806;
+  --dark:      #141008;
+  --graphite:  #1E1A12;
+  --graph2:    #26211A;
+  --gold:      #C9A96E;
+  --gold-dim:  #7A5E2E;
+  --gold-pale: #E8D5B0;
+  --cream:     #F5F0E8;
+  --muted:     #8A7A70;
+  --off:       #5A5048;
+  --green:     #4A7C59;
+  --rose:      #C4897A;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--noir);
+  color: var(--cream);
+  min-height: 100vh;
+}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  position: fixed; top:0; left:0; right:0; z-index:100;
+  height: 3px; background: var(--graphite);
+}
+.progress-bar {
+  height: 100%; background: var(--gold);
+  width: 0%; transition: width 0.4s ease;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:3px; left:0; right:0; z-index:99;
+  padding: 16px 40px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10,8,6,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,169,110,0.15);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; letter-spacing: 2px; color: var(--cream);
+}
+.nav-logo span { color: var(--gold); }
+.nav-step {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--muted); letter-spacing: 1px;
+}
+
+/* ── HERO DO FORM ── */
+.form-hero {
+  padding: 120px 40px 60px;
+  max-width: 760px; margin: 0 auto;
+  text-align: center;
+}
+.form-hero .eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+}
+.form-hero .eyebrow::before,
+.form-hero .eyebrow::after {
+  content: ''; width: 40px; height: 1px; background: var(--gold-dim);
+}
+.form-hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 58px); font-weight: 300;
+  line-height: 1.1; margin-bottom: 20px;
+}
+.form-hero h1 em { font-style: italic; color: var(--gold); }
+.form-hero p {
+  font-size: 15px; line-height: 1.8; color: var(--muted);
+  max-width: 520px; margin: 0 auto 40px;
+}
+
+/* ── STEPS INDICATOR ── */
+.steps-indicator {
+  display: flex; justify-content: center; gap: 8px;
+  margin-bottom: 60px;
+}
+.step-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--graphite); border: 1px solid var(--gold-dim);
+  transition: all 0.3s; cursor: pointer;
+}
+.step-dot.active { background: var(--gold); border-color: var(--gold); }
+.step-dot.done { background: var(--green); border-color: var(--green); }
+
+/* ── FORM CONTAINER ── */
+.form-container {
+  max-width: 760px; margin: 0 auto;
+  padding: 0 40px 120px;
+}
+
+/* ── SECTIONS ── */
+.form-section {
+  display: none;
+  animation: fadeInUp 0.5s ease forwards;
+}
+.form-section.active { display: block; }
+
+@keyframes fadeInUp {
+  from { opacity:0; transform: translateY(20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.section-header {
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(201,169,110,0.2);
+  position: relative;
+}
+.section-header::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0;
+  width: 60px; height: 1px; background: var(--gold);
+}
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 2px; color: var(--gold);
+  margin-bottom: 8px; display: block;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 300; color: var(--cream);
+  margin-bottom: 6px;
+}
+.section-title em { font-style: italic; color: var(--gold); }
+.section-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+/* ── FORM GROUPS ── */
+.form-group {
+  margin-bottom: 28px;
+}
+.form-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+}
+label {
+  display: block;
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--gold-dim); margin-bottom: 8px;
+  font-family: 'DM Mono', monospace;
+}
+label .req { color: var(--rose); margin-left: 2px; }
+
+input[type=text], input[type=tel], input[type=url], input[type=email],
+textarea, select {
+  width: 100%;
+  background: var(--graphite);
+  border: 1px solid rgba(201,169,110,0.2);
+  color: var(--cream);
+  padding: 14px 16px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px;
+  border-radius: 2px; outline: none;
+  transition: border-color 0.3s, background 0.3s;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--gold);
+  background: var(--graph2);
+}
+input::placeholder, textarea::placeholder { color: var(--off); }
+textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+select option { background: var(--dark); }
+
+/* ── CHECKBOX CARDS ── */
+.check-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+.check-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.check-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+.check-card {
+  position: relative;
+}
+.check-card input[type=checkbox] {
+  position: absolute; opacity: 0; width:0; height:0;
+}
+.check-card label {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 14px 16px;
+  background: var(--graphite);
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: 2px; cursor: pointer;
+  transition: all 0.2s;
+  font-size: 13px; color: var(--muted);
+  letter-spacing: 0; text-transform: none;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.4;
+}
+.check-card label .check-icon {
+  width: 16px; height: 16px; min-width: 16px;
+  border: 1px solid var(--gold-dim); border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px; transition: all 0.2s;
+  font-size: 10px;
+}
+.check-card input:checked + label {
+  background: var(--graph2);
+  border-color: var(--gold);
+  color: var(--cream);
+}
+.check-card input:checked + label .check-icon {
+  background: var(--gold); border-color: var(--gold); color: var(--noir);
+}
+.check-card label:hover {
+  border-color: var(--gold-dim); color: var(--gold-pale);
+}
+
+/* Radio cards */
+.radio-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.radio-card { position: relative; }
+.radio-card input[type=radio] { position: absolute; opacity:0; width:0; height:0; }
+.radio-card label {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 20px 12px;
+  background: var(--graphite);
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: 2px; cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  letter-spacing: 0; text-transform: none;
+  font-family: 'DM Sans', sans-serif;
+}
+.radio-card label .r-icon { font-size: 24px; margin-bottom: 8px; }
+.radio-card label .r-name {
+  font-size: 13px; color: var(--cream); font-weight: 500;
+  margin-bottom: 4px;
+}
+.radio-card label .r-price {
+  font-size: 11px; color: var(--gold); font-family: 'DM Mono', monospace;
+}
+.radio-card label .r-desc {
+  font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.4;
+}
+.radio-card input:checked + label {
+  background: var(--graph2); border-color: var(--gold);
+}
+.radio-card input:checked + label .r-name { color: var(--gold-pale); }
+
+/* Color swatches */
+.color-grid {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.color-swatch { position: relative; }
+.color-swatch input[type=radio] { position: absolute; opacity:0; width:0; height:0; }
+.color-swatch label {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px;
+  background: var(--graphite);
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: 20px; cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0; text-transform: none;
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  color: var(--muted);
+}
+.color-dot {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.color-swatch input:checked + label {
+  border-color: var(--gold); color: var(--cream);
+}
+
+/* ── SERVICES TABLE ── */
+.service-table { width: 100%; border-collapse: collapse; }
+.service-table th {
+  text-align: left; padding: 10px 12px;
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 1.5px; color: var(--gold-dim);
+  border-bottom: 1px solid rgba(201,169,110,0.2);
+}
+.service-table td {
+  padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.service-row td:first-child { width: 40%; }
+.service-row input[type=text] { padding: 8px 10px; font-size: 13px; }
+.add-service {
+  background: none; border: 1px dashed var(--gold-dim);
+  color: var(--gold-dim); padding: 10px; width: 100%;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px;
+  margin-top: 8px; border-radius: 2px; transition: all 0.2s;
+}
+.add-service:hover { border-color: var(--gold); color: var(--gold); }
+.remove-service {
+  background: none; border: none; color: var(--rose);
+  cursor: pointer; font-size: 16px; padding: 0 4px;
+}
+
+/* ── NAVIGATION BUTTONS ── */
+.form-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 48px; padding-top: 28px;
+  border-top: 1px solid rgba(201,169,110,0.15);
+}
+.btn-back {
+  background: none; border: 1px solid var(--gold-dim);
+  color: var(--muted); padding: 12px 28px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  letter-spacing: 1px; cursor: pointer; border-radius: 2px;
+  transition: all 0.3s;
+}
+.btn-back:hover { border-color: var(--gold); color: var(--gold); }
+.btn-next {
+  background: var(--gold); color: var(--noir);
+  border: none; padding: 14px 40px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px;
+  font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+  cursor: pointer; border-radius: 2px; transition: all 0.3s;
+}
+.btn-next:hover { background: var(--gold-pale); }
+
+/* ── PROMPT OUTPUT ── */
+#prompt-output {
+  display: none;
+  animation: fadeInUp 0.5s ease forwards;
+}
+.prompt-box {
+  background: var(--graphite);
+  border: 1px solid rgba(201,169,110,0.3);
+  border-radius: 2px; padding: 32px;
+  margin: 28px 0;
+  position: relative;
+}
+.prompt-box pre {
+  font-family: 'DM Mono', monospace;
+  font-size: 11.5px; line-height: 1.8;
+  color: var(--gold-pale); white-space: pre-wrap;
+  word-break: break-word;
+}
+.btn-copy {
+  position: absolute; top: 16px; right: 16px;
+  background: var(--gold); color: var(--noir);
+  border: none; padding: 8px 20px;
+  font-family: 'DM Sans', sans-serif; font-size: 11px;
+  font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
+  cursor: pointer; border-radius: 2px; transition: all 0.3s;
+}
+.btn-copy:hover { background: var(--gold-pale); }
+.btn-copy.copied { background: var(--green); color: white; }
+
+.success-banner {
+  background: linear-gradient(135deg, #1A2A1A, #141E14);
+  border: 1px solid var(--green);
+  border-radius: 2px; padding: 28px 32px;
+  text-align: center; margin-bottom: 28px;
+}
+.success-banner .s-icon { font-size: 40px; margin-bottom: 12px; }
+.success-banner h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 300; color: var(--cream);
+  margin-bottom: 8px;
+}
+.success-banner p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+.hint-box {
+  background: var(--dark); border-left: 2px solid var(--gold);
+  padding: 16px 20px; margin: 20px 0; border-radius: 0 2px 2px 0;
+}
+.hint-box p { font-size: 12px; color: var(--muted); line-height: 1.7; }
+.hint-box strong { color: var(--gold); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  nav { padding: 14px 20px; }
+  .form-hero, .form-container { padding-left: 20px; padding-right: 20px; }
+  .form-row { grid-template-columns: 1fr; }
+  .check-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+  .radio-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+
+<nav>
+  <div class="nav-logo">Vértice<span>·</span></div>
+  <div class="nav-step" id="navStep">Etapa 1 de 6</div>
+</nav>
+
+<div class="form-hero">
+  <div class="eyebrow">Briefing do Projeto</div>
+  <h1>Vamos criar sua <em>página perfeita</em></h1>
+  <p>Preencha as informações abaixo para que possamos desenvolver um projeto personalizado para o seu negócio. Leva menos de 5 minutos.</p>
+  <div class="steps-indicator" id="stepsIndicator">
+    <div class="step-dot active" onclick="goTo(0)"></div>
+    <div class="step-dot" onclick="goTo(1)"></div>
+    <div class="step-dot" onclick="goTo(2)"></div>
+    <div class="step-dot" onclick="goTo(3)"></div>
+    <div class="step-dot" onclick="goTo(4)"></div>
+    <div class="step-dot" onclick="goTo(5)"></div>
+  </div>
+</div>
+
+<div class="form-container">
+
+  <!-- ══ SEÇÃO 1: PACOTE ══ -->
+  <div class="form-section active" id="sec-0">
+    <div class="section-header">
+      <span class="section-num">01 / 06</span>
+      <h2 class="section-title">Escolha seu <em>pacote</em></h2>
+      <p class="section-desc">Selecione o serviço que melhor atende o seu momento atual.</p>
+    </div>
+
+    <div class="form-group">
+      <label>Pacote desejado <span class="req">*</span></label>
+      <div class="radio-grid" id="pacoteGrid">
+        <div class="radio-card">
+          <input type="radio" name="pacote" id="p1" value="Landing Page Essencial · R$350 · 2 dias úteis">
+          <label for="p1">
+            <span class="r-icon">🌐</span>
+            <span class="r-name">Landing Page</span>
+            <span class="r-price">R$ 350</span>
+            <span class="r-desc">Página completa · 2 dias úteis</span>
+          </label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="pacote" id="p2" value="Site Completo Profissional · R$550 · 3 dias úteis">
+          <label for="p2">
+            <span class="r-icon">💼</span>
+            <span class="r-name">Site Completo</span>
+            <span class="r-price">R$ 550</span>
+            <span class="r-desc">+ portfólio e domínio · 3 dias</span>
+          </label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="pacote" id="p3" value="Site + Google Meu Negócio Premium · R$750 · 5 dias úteis">
+          <label for="p3">
+            <span class="r-icon">🔍</span>
+            <span class="r-name">Site + Google</span>
+            <span class="r-price">R$ 750</span>
+            <span class="r-desc">+ Google Meu Negócio · 5 dias</span>
+          </label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="pacote" id="p4" value="Agenda Online · sob consulta">
+          <label for="p4">
+            <span class="r-icon">📅</span>
+            <span class="r-name">Agenda Online</span>
+            <span class="r-price">Sob consulta</span>
+            <span class="r-desc">Agendamento automático 24h</span>
+          </label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="pacote" id="p5" value="Controle de Clientes (CRM) · sob consulta">
+          <label for="p5">
+            <span class="r-icon">👥</span>
+            <span class="r-name">Ctrl. Clientes</span>
+            <span class="r-price">Sob consulta</span>
+            <span class="r-desc">Cadastro, histórico e anotações</span>
+          </label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="pacote" id="p6" value="Catálogo Digital · sob consulta">
+          <label for="p6">
+            <span class="r-icon">🗂️</span>
+            <span class="r-name">Catálogo Digital</span>
+            <span class="r-price">Sob consulta</span>
+            <span class="r-desc">Serviços e produtos com fotos</span>
+          </label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="pacote" id="p7" value="Painel Administrativo Completo · sob consulta">
+          <label for="p7">
+            <span class="r-icon">⚙️</span>
+            <span class="r-name">Painel Admin</span>
+            <span class="r-price">Sob consulta</span>
+            <span class="r-desc">Gestão completa do negócio</span>
+          </label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="pacote" id="p8" value="Pacote Completo (Site + Sistema) · sob consulta">
+          <label for="p8">
+            <span class="r-icon">🚀</span>
+            <span class="r-name">Pacote Completo</span>
+            <span class="r-price">Sob consulta</span>
+            <span class="r-desc">Site + sistema integrado</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <div></div>
+      <button class="btn-next" onclick="next()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ══ SEÇÃO 2: NEGÓCIO ══ -->
+  <div class="form-section" id="sec-1">
+    <div class="section-header">
+      <span class="section-num">02 / 06</span>
+      <h2 class="section-title">Sobre o seu <em>negócio</em></h2>
+      <p class="section-desc">Nos conte quem você é e o que você oferece.</p>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nome do negócio <span class="req">*</span></label>
+        <input type="text" id="nomeNegocio" placeholder="Ex: Studio Fernanda Estética">
+      </div>
+      <div class="form-group">
+        <label>Seu nome <span class="req">*</span></label>
+        <input type="text" id="nomeCliente" placeholder="Ex: Fernanda Costa">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Segmento / especialidade <span class="req">*</span></label>
+        <select id="segmento">
+          <option value="">Selecione...</option>
+          <optgroup label="Estética e Beleza">
+            <option>Clínica de Estética</option>
+            <option>Salão de Beleza</option>
+            <option>Barbearia</option>
+            <option>Esmalteria</option>
+            <option>Micropigmentação</option>
+            <option>Designer de Sobrancelhas</option>
+            <option>Depilação</option>
+            <option>Massoterapia / Spa</option>
+          </optgroup>
+          <optgroup label="Saúde">
+            <option>Nutrição</option>
+            <option>Psicologia</option>
+            <option>Fisioterapia</option>
+            <option>Odontologia</option>
+            <option>Personal Trainer</option>
+          </optgroup>
+          <optgroup label="Outros">
+            <option>Advocacia</option>
+            <option>Arquitetura / Design de Interiores</option>
+            <option>Consultoria</option>
+            <option>Outros (descreva abaixo)</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Cidade e estado <span class="req">*</span></label>
+        <input type="text" id="cidade" placeholder="Ex: Porto Alegre, RS">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Endereço completo</label>
+        <input type="text" id="endereco" placeholder="Rua, número, bairro">
+      </div>
+      <div class="form-group">
+        <label>Horário de atendimento</label>
+        <input type="text" id="horario" placeholder="Ex: Seg-Sex 9h-19h · Sáb 9h-15h">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Sobre o negócio</label>
+      <textarea id="sobre" placeholder="Em poucas palavras, o que torna seu negócio especial? Diferenciais, tempo de experiência, proposta de valor..."></textarea>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="prev()">← Voltar</button>
+      <button class="btn-next" onclick="next()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ══ SEÇÃO 3: SERVIÇOS ══ -->
+  <div class="form-section" id="sec-2">
+    <div class="section-header">
+      <span class="section-num">03 / 06</span>
+      <h2 class="section-title">Seus <em>serviços</em></h2>
+      <p class="section-desc">Liste os serviços que devem aparecer na sua página. Adicione quantos quiser.</p>
+    </div>
+
+    <div class="form-group">
+      <table class="service-table" id="serviceTable">
+        <thead>
+          <tr>
+            <th>Nome do serviço</th>
+            <th>Descrição curta</th>
+            <th>Preço (R$)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="serviceBody">
+          <tr class="service-row">
+            <td><input type="text" placeholder="Ex: Limpeza de Pele"></td>
+            <td><input type="text" placeholder="Ex: Higienização profunda"></td>
+            <td><input type="text" placeholder="Ex: 120"></td>
+            <td><button class="remove-service" onclick="removeService(this)">✕</button></td>
+          </tr>
+          <tr class="service-row">
+            <td><input type="text" placeholder="Ex: Microagulhamento"></td>
+            <td><input type="text" placeholder="Ex: Estímulo de colágeno"></td>
+            <td><input type="text" placeholder="Ex: 280"></td>
+            <td><button class="remove-service" onclick="removeService(this)">✕</button></td>
+          </tr>
+          <tr class="service-row">
+            <td><input type="text" placeholder="Ex: Design de Sobrancelhas"></td>
+            <td><input type="text" placeholder="Ex: Modelagem personalizada"></td>
+            <td><input type="text" placeholder="Ex: 80"></td>
+            <td><button class="remove-service" onclick="removeService(this)">✕</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="add-service" onclick="addService()">+ Adicionar serviço</button>
+    </div>
+
+    <div class="form-group">
+      <label>Serviço em destaque (o mais procurado)</label>
+      <input type="text" id="servicoDestaque" placeholder="Ex: Pacote Noiva">
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="prev()">← Voltar</button>
+      <button class="btn-next" onclick="next()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ══ SEÇÃO 4: VISUAL ══ -->
+  <div class="form-section" id="sec-3">
+    <div class="section-header">
+      <span class="section-num">04 / 06</span>
+      <h2 class="section-title">Identidade <em>visual</em></h2>
+      <p class="section-desc">Como você quer que sua página se pareça.</p>
+    </div>
+
+    <div class="form-group">
+      <label>Paleta de cores preferida <span class="req">*</span></label>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <input type="radio" name="cores" id="c1" value="Escuro e sofisticado — preto, dourado, creme">
+          <label for="c1"><span class="color-dot" style="background:linear-gradient(135deg,#1A1410,#C9A96E)"></span>Escuro & Dourado</label>
+        </div>
+        <div class="color-swatch">
+          <input type="radio" name="cores" id="c2" value="Rosa e nude — feminino, delicado, elegante">
+          <label for="c2"><span class="color-dot" style="background:linear-gradient(135deg,#F5C5B8,#D4956A)"></span>Rosa & Nude</label>
+        </div>
+        <div class="color-swatch">
+          <input type="radio" name="cores" id="c3" value="Branco e minimalista — limpo, moderno, profissional">
+          <label for="c3"><span class="color-dot" style="background:linear-gradient(135deg,#fff,#E0E0E0)"></span>Branco & Clean</label>
+        </div>
+        <div class="color-swatch">
+          <input type="radio" name="cores" id="c4" value="Verde e natural — orgânico, wellness, bem-estar">
+          <label for="c4"><span class="color-dot" style="background:linear-gradient(135deg,#2D5A3D,#8AB89A)"></span>Verde & Natural</label>
+        </div>
+        <div class="color-swatch">
+          <input type="radio" name="cores" id="c5" value="Lilás e lavanda — suave, tranquilo, feminino">
+          <label for="c5"><span class="color-dot" style="background:linear-gradient(135deg,#9B8EC4,#D4C5E8)"></span>Lilás & Lavanda</label>
+        </div>
+        <div class="color-swatch">
+          <input type="radio" name="cores" id="c6" value="Azul marinho e prata — confiança, seriedade, premium">
+          <label for="c6"><span class="color-dot" style="background:linear-gradient(135deg,#1A3A5C,#8BA4C0)"></span>Azul & Prata</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Estilo visual</label>
+      <div class="check-grid cols-3">
+        <div class="check-card">
+          <input type="checkbox" id="est1" value="minimalista e clean">
+          <label for="est1"><span class="check-icon">✓</span>Minimalista</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="est2" value="luxuoso e premium">
+          <label for="est2"><span class="check-icon">✓</span>Luxuoso</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="est3" value="moderno e tecnológico">
+          <label for="est3"><span class="check-icon">✓</span>Moderno</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="est4" value="aconchegante e caloroso">
+          <label for="est4"><span class="check-icon">✓</span>Aconchegante</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="est5" value="jovem e descolado">
+          <label for="est5"><span class="check-icon">✓</span>Jovem</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="est6" value="clássico e elegante">
+          <label for="est6"><span class="check-icon">✓</span>Clássico</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Link de referência (site ou perfil que você gosta)</label>
+      <input type="url" id="referencia" placeholder="https://...">
+    </div>
+
+    <div class="form-group">
+      <label>Observações sobre o visual</label>
+      <textarea id="obsVisual" placeholder="Algum detalhe sobre cores, fontes ou estilo que devemos saber?"></textarea>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="prev()">← Voltar</button>
+      <button class="btn-next" onclick="next()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ══ SEÇÃO 5: CONTATO E REDES ══ -->
+  <div class="form-section" id="sec-4">
+    <div class="section-header">
+      <span class="section-num">05 / 06</span>
+      <h2 class="section-title">Contato e <em>redes sociais</em></h2>
+      <p class="section-desc">Informações de contato que aparecerão na sua página.</p>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="whatsapp" placeholder="(51) 9 9999-9999">
+      </div>
+      <div class="form-group">
+        <label>Instagram</label>
+        <input type="text" id="instagram" placeholder="@seuperfil">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Facebook</label>
+        <input type="text" id="facebook" placeholder="facebook.com/seuperfil">
+      </div>
+      <div class="form-group">
+        <label>TikTok</label>
+        <input type="text" id="tiktok" placeholder="@seuperfil">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Portfólio / fotos de antes e depois</label>
+      <textarea id="portfolio" placeholder="Cole aqui links de fotos do Google Drive, Dropbox, Instagram ou descreva o que vai enviar. Ex: 'Tenho 20 fotos de antes e depois no meu Drive: link...'"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Depoimentos de clientes</label>
+      <textarea id="depoimentos" placeholder="Cole aqui 2 ou 3 depoimentos reais de clientes (nome + texto). Se não tiver agora, usaremos exemplos e você substitui depois."></textarea>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="prev()">← Voltar</button>
+      <button class="btn-next" onclick="next()">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- ══ SEÇÃO 6: EXTRAS ══ -->
+  <div class="form-section" id="sec-5">
+    <div class="section-header">
+      <span class="section-num">06 / 06</span>
+      <h2 class="section-title">Detalhes <em>finais</em></h2>
+      <p class="section-desc">Últimas informações para deixar tudo perfeito.</p>
+    </div>
+
+    <div class="form-group">
+      <label>Funcionalidades extras desejadas</label>
+      <div class="check-grid cols-2">
+        <div class="check-card">
+          <input type="checkbox" id="f1" value="botão de agendamento via WhatsApp">
+          <label for="f1"><span class="check-icon">✓</span>Botão agendamento WhatsApp</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="f2" value="galeria de fotos antes e depois">
+          <label for="f2"><span class="check-icon">✓</span>Galeria antes e depois</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="f3" value="seção de depoimentos de clientes">
+          <label for="f3"><span class="check-icon">✓</span>Depoimentos de clientes</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="f4" value="mapa do Google Maps integrado">
+          <label for="f4"><span class="check-icon">✓</span>Mapa Google Maps</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="f5" value="FAQ — perguntas frequentes">
+          <label for="f5"><span class="check-icon">✓</span>FAQ (perguntas frequentes)</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="f6" value="contador de clientes atendidos">
+          <label for="f6"><span class="check-icon">✓</span>Contador de clientes</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="f7" value="formulário de contato por e-mail">
+          <label for="f7"><span class="check-icon">✓</span>Formulário de contato</label>
+        </div>
+        <div class="check-card">
+          <input type="checkbox" id="f8" value="pop-up de promoção ou novidade">
+          <label for="f8"><span class="check-icon">✓</span>Pop-up promocional</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Prazo de entrega preferido</label>
+      <div class="radio-grid">
+        <div class="radio-card">
+          <input type="radio" name="prazo" id="pr1" value="O mais rápido possível (urgente)">
+          <label for="pr1"><span class="r-icon">⚡</span><span class="r-name">Urgente</span><span class="r-desc">Prioridade máxima</span></label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="prazo" id="pr2" value="Dentro do prazo padrão do pacote">
+          <label for="pr2"><span class="r-icon">📅</span><span class="r-name">Padrão</span><span class="r-desc">Prazo do pacote</span></label>
+        </div>
+        <div class="radio-card">
+          <input type="radio" name="prazo" id="pr3" value="Sem pressa, pode levar o tempo necessário">
+          <label for="pr3"><span class="r-icon">🌿</span><span class="r-name">Sem pressa</span><span class="r-desc">Qualidade em 1º lugar</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Observações finais ou pedidos especiais</label>
+      <textarea id="obs" placeholder="Tem alguma informação extra, pedido especial ou algo que devemos saber antes de começar?"></textarea>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="prev()">← Voltar</button>
+      <button class="btn-next" onclick="generatePrompt()" style="background:var(--green);color:white;">
+        ✦ Gerar Prompt
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ OUTPUT: PROMPT GERADO ══ -->
+  <div id="prompt-output">
+    <div class="success-banner">
+      <div class="s-icon">✦</div>
+      <h2>Briefing completo!</h2>
+      <p>O prompt abaixo foi gerado automaticamente com as informações do cliente.<br>Copie e cole diretamente no Lovable para iniciar o projeto.</p>
+    </div>
+
+    <div class="hint-box">
+      <p><strong>Como usar:</strong> Copie o prompt → abra o Lovable → cole no chat → o projeto será criado automaticamente com todas as informações deste cliente.</p>
+    </div>
+
+    <div class="prompt-box">
+      <button class="btn-copy" id="copyBtn" onclick="copyPrompt()">Copiar</button>
+      <pre id="generatedPrompt"></pre>
+    </div>
+
+    <button class="btn-next" onclick="resetForm()" style="width:100%;margin-top:8px;background:var(--graphite);color:var(--gold);border:1px solid var(--gold-dim);">
+      Novo briefing
+    </button>
+  </div>
+
+</div><!-- /form-container -->
+
+<script>
+let current = 0;
+const total = 6;
+
+function updateProgress() {
+  const pct = ((current) / total) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('navStep').textContent = `Etapa ${current + 1} de ${total}`;
+  const dots = document.querySelectorAll('.step-dot');
+  dots.forEach((d, i) => {
+    d.classList.remove('active', 'done');
+    if (i === current) d.classList.add('active');
+    else if (i < current) d.classList.add('done');
+  });
+}
+
+function goTo(index) {
+  document.getElementById(`sec-${current}`).classList.remove('active');
+  current = index;
+  document.getElementById(`sec-${current}`).classList.add('active');
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next() { if (current < total - 1) goTo(current + 1); }
+function prev() { if (current > 0) goTo(current - 1); }
+
+function addService() {
+  const tbody = document.getElementById('serviceBody');
+  const row = document.createElement('tr');
+  row.className = 'service-row';
+  row.innerHTML = `
+    <td><input type="text" placeholder="Nome do serviço"></td>
+    <td><input type="text" placeholder="Descrição curta"></td>
+    <td><input type="text" placeholder="Preço"></td>
+    <td><button class="remove-service" onclick="removeService(this)">✕</button></td>
+  `;
+  tbody.appendChild(row);
+}
+
+function removeService(btn) {
+  const rows = document.querySelectorAll('.service-row');
+  if (rows.length > 1) btn.closest('tr').remove();
+}
+
+function getChecked(name) {
+  return [...document.querySelectorAll(`input[name="${name}"]:checked`)]
+    .map(i => i.value).join(', ');
+}
+
+function getCheckboxes(prefix, count) {
+  const vals = [];
+  for (let i = 1; i <= count; i++) {
+    const el = document.getElementById(prefix + i);
+    if (el && el.checked) vals.push(el.value);
+  }
+  return vals;
+}
+
+function getServices() {
+  const rows = document.querySelectorAll('.service-row');
+  const services = [];
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const nome = inputs[0].value.trim();
+    const desc = inputs[1].value.trim();
+    const preco = inputs[2].value.trim();
+    if (nome) services.push({ nome, desc, preco });
+  });
+  return services;
+}
+
+function generatePrompt() {
+  // Coleta dados
+  const pacote      = getChecked('pacote');
+  const nomeNeg     = document.getElementById('nomeNegocio').value.trim() || '[Nome do negócio]';
+  const nomeCliente = document.getElementById('nomeCliente').value.trim() || '[Nome]';
+  const segmento    = document.getElementById('segmento').value || '[Segmento]';
+  const cidade      = document.getElementById('cidade').value.trim() || '[Cidade]';
+  const endereco    = document.getElementById('endereco').value.trim();
+  const horario     = document.getElementById('horario').value.trim();
+  const sobre       = document.getElementById('sobre').value.trim();
+  const destaque    = document.getElementById('servicoDestaque').value.trim();
+  const cores       = getChecked('cores');
+  const estilos     = getCheckboxes('est', 6);
+  const referencia  = document.getElementById('referencia').value.trim();
+  const obsVisual   = document.getElementById('obsVisual').value.trim();
+  const whatsapp    = document.getElementById('whatsapp').value.trim() || '(00) 0 0000-0000';
+  const instagram   = document.getElementById('instagram').value.trim();
+  const facebook    = document.getElementById('facebook').value.trim();
+  const tiktok      = document.getElementById('tiktok').value.trim();
+  const portfolio   = document.getElementById('portfolio').value.trim();
+  const depoimentos = document.getElementById('depoimentos').value.trim();
+  const funcExtra   = getCheckboxes('f', 8);
+  const prazo       = getChecked('prazo');
+  const obs         = document.getElementById('obs').value.trim();
+  const services    = getServices();
+
+  // Monta lista de serviços
+  let servicosStr = '';
+  if (services.length > 0) {
+    servicosStr = services.map(s => {
+      let str = `    - ${s.nome}`;
+      if (s.desc) str += `: ${s.desc}`;
+      if (s.preco) str += ` · R$ ${s.preco}`;
+      return str;
+    }).join('\n');
+  }
+
+  // Redes sociais
+  const redesStr = [
+    instagram ? `Instagram: ${instagram}` : '',
+    facebook  ? `Facebook: ${facebook}`   : '',
+    tiktok    ? `TikTok: ${tiktok}`        : '',
+  ].filter(Boolean).join(' · ');
+
+  // Funcionalidades extras
+  const funcStr = funcExtra.length > 0
+    ? funcExtra.map(f => `    - ${f}`).join('\n')
+    : '    - Padrão do pacote';
+
+  const prompt = `Crie uma página completa e publicável para o seguinte cliente:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CLIENTE E NEGÓCIO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nome do negócio: ${nomeNeg}
+Responsável: ${nomeCliente}
+Segmento: ${segmento}
+Cidade: ${cidade}${endereco ? `\nEndereço: ${endereco}` : ''}${horario ? `\nHorário: ${horario}` : ''}${sobre ? `\nSobre: ${sobre}` : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PACOTE CONTRATADO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${pacote || 'Landing Page Essencial'}${prazo ? `\nPrazo desejado: ${prazo}` : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SERVIÇOS (usar na página)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${servicosStr || '    - (cliente enviará lista de serviços)'}${destaque ? `\nServiço em destaque: ${destaque}` : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+IDENTIDADE VISUAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Paleta de cores: ${cores || 'a definir com o cliente'}
+Estilo: ${estilos.length > 0 ? estilos.join(', ') : 'elegante e profissional'}${referencia ? `\nReferência visual: ${referencia}` : ''}${obsVisual ? `\nObservações visuais: ${obsVisual}` : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONTATO E REDES SOCIAIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WhatsApp: ${whatsapp}${redesStr ? `\nRedes: ${redesStr}` : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONTEÚDO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${portfolio ? `Portfólio/fotos: ${portfolio}` : 'Portfólio: cliente enviará fotos após aprovação'}
+${depoimentos ? `Depoimentos:\n${depoimentos}` : 'Depoimentos: usar exemplos fictícios — cliente substituirá depois'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FUNCIONALIDADES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${funcStr}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INSTRUÇÕES TÉCNICAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- 100% responsivo para celular e computador
+- Animações suaves de scroll reveal
+- Botão flutuante de WhatsApp no canto inferior direito
+- Todas as CTAs abrem WhatsApp com mensagem: "Olá ${nomeNeg}! Vim pelo seu site e gostaria de agendar."
+- Seções: Hero → Sobre → Serviços → Portfólio → Depoimentos → Contato
+- Sem formulários complexos — tudo via WhatsApp${obs ? `\n\nOBSERVAÇÕES ESPECIAIS:\n${obs}` : ''}`;
+
+  document.getElementById('generatedPrompt').textContent = prompt;
+
+  // Esconde formulário, mostra output
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('prompt-output').style.display = 'block';
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('navStep').textContent = 'Briefing concluído';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyPrompt() {
+  const text = document.getElementById('generatedPrompt').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copiado!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copiar';
+      btn.classList.remove('copied');
+    }, 2500);
+  });
+}
+
+function resetForm() {
+  current = 0;
+  document.getElementById('prompt-output').style.display = 'none';
+  document.querySelectorAll('.form-section').forEach((s,i) => {
+    s.classList.toggle('active', i === 0);
+  });
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+updateProgress();
+</script>
+</body>
+</html>
